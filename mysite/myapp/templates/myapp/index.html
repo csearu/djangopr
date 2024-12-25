@@ -12,5 +12,35 @@
         <input type="file" name="file" id="file">
         <input type="submit" name="submit" id="">
      </form>
+     <table class="table table-striped table-dark">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Price</th>
+            <th scope="col">Rent</th>
+            <th scope="col">EMI</th>
+            <th scope="col">Tax</th>
+            <th scope="col">Expenses</th>
+            <th scope="col">Net Expenses</th>
+            <th scope="col">Net Income</th>
+          </tr>
+        </thead>
+        <tbody class="table-group-divider">
+        {% if data_objects %}           
+                    {% for object in data_objects %}
+                        <tr>
+                            <td>{{ object.name }}</td>
+                            <td>{{ object.price }}</td>
+                            <td>{{ object.rent }}</td>
+                            <td>{{ object.emi }}</td>
+                            <td>{{ object.tax }}</td>
+                            <td>{{ object.exp }}</td>
+                            <td>{{ object.monthly_expenses }}</td>
+                            <td>{{ object.monthly_income }}</td>
+                        </tr>
+                    {% endfor %}              
+        {% endif %} 
+        </tbody>
+      </table>
 </body>
 </html>
