@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload Image</title>
+</head>
+<body>
+    <h1>Upload Image</h1>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Upload</button>
+    </form>
+    <h1>Uploaded Images</h1>
+    <table class="table table-striped table-dark">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Original Image</th>
+            <th scope="col">Formatted Image</th>
+          </tr>
+        </thead>
+        <tbody class="table-group-divider">
+        {% if images %}           
+                    {% for image in images %}
+                        <tr>
+                            <td>{{ image.title }}</td>
+                            <td><img src="{{ image.original_image.url }}" alt="{{ image.title }}" width="300"></td>
+                            <td><img src="{{ image.formatted_image.url }}" alt="Formatted {{ image.title }}" width="300"></td>
+                        </tr>
+                    {% endfor %}              
+        {% endif %} 
+        </tbody>
+      </table>
+</body>
+</html>
