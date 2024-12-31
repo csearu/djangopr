@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OCR Scan</title>
+</head>
+<body>
+    <h2>Upload Passport/License for OCR</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="document" accept="image/*" required>
+        <button type="submit">Scan</button>
+    </form>
+
+    {% if image_url and extracted_text %}
+        <hr>
+        <h3>Scanned Image</h3>
+        <img src="{{ image_url }}" alt="Uploaded Image" style="max-width: 300px; border: 1px solid #ccc;">
+
+        <h3>Extracted Details</h3>
+        <pre>{{ extracted_text }}</pre>
+    {% endif %}
+</body>
+</html>

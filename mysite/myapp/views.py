@@ -10,6 +10,14 @@ from .forms import ImageUploadForm
 from .models import UploadedImage
 import os
 from .utils import format_image
+import pytesseract
+from PIL import Image
+from django.shortcuts import render
+from django.http import JsonResponse
+from .models import Document
+from django.core.files.storage import FileSystemStorage
+# Specify the path to Tesseract
+pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
 # Create your views here.
 def hello(request):
@@ -146,3 +154,26 @@ def display_images(request):
     images = UploadedImage.objects.all()
     # print(images)
     return render(request, 'myapp/display.html', {'images': images})
+
+
+def ocr_scan(request):
+    context = {}
+    if request.method == 'POST' and request.FILES.get('document'):
+        file = request.FILES['document']
+        fs = FileSystemStorage()
+        filename = fs.save(file.name, file)
+        file_url = fs.url(filename)
+
+        # Open the image using PIL
+        img = Image.open(f'media/{filename}')
+
+        # Use Tesseract to extract text
+        extracted_text = pytesseract.image_to_string(img)
+
+        # Pass details to the template
+        context = {
+            'image_url': file_url,
+            'extracted_text': extracted_text
+        }
+
+    return render(request, 'myapp/ocr_scan.html', context)

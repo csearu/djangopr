@@ -20,3 +20,7 @@ class UploadedImage(models.Model):
 
     def __str__(self):
         return self.title
+    
+class Document(models.Model):
+    image = models.ImageField(upload_to='documents/')
+    text = models.TextField(blank=True)    

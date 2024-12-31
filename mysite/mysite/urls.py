@@ -26,6 +26,7 @@ urlpatterns = [
     path('thirukkural/', views.thirukkural),
     path('upload/', views.upload_image, name='upload_image'),
     path('display/', views.display_images, name='display_images'),
+    path('ocr/', views.ocr_scan, name='ocr_scan'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
