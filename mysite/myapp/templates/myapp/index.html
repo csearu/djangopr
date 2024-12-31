@@ -1,110 +1,134 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HomePage</title>
-    <link rel="stylesheet" href="{% static 'myapp/styles.css' %}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HomePage</title>
+  <link rel="stylesheet" href="{% static 'myapp/styles.css' %}">
 </head>
+
 <body class="bg-gray-100">
   <nav class="bg-indigo-900 py-2 md:py-4 shadow-lg">
     <div class="container px-4 md:flex md:items-center mx-auto">
-      <a href="#" class="font-bold text-xl text-red">PROPERTY PORTFOLIO</a>
+      <a href="#" class="font-bold text-xl text-white">PROPERTY PORTFOLIO</a>
     </div>
   </nav>
   <div class="bg-indigo-200 m-7 p-6">
-    <div class="text-4xl text-green-500 font-medium">Good Afternoon, Aru ✋</div>
+    <div class="text-4xl text-green-500 font-bold">Good Afternoon, Aru ✋</div>
     <div class="mt-4">Upload & Visualize data with reporting tool</div>
   </div>
 
-     <form class="bg-white rounded px-8 pt-6 pb-8 mb-4" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <input class="inline-block font-bold text-sm text-blue-500" type="file" name="file" id="file">
-        <input class="bg-blue-500 text-white font-bold py-2 px-4 rounded" type="submit" name="submit" id="">
-     </form>
-     <table id="table">
-        <thead>
-          <tr>
-            <th class="px-6 py-2 text-sm text-gray-500" scope="col">Name</th>
-            <th class="px-6 py-2 text-sm text-gray-500" scope="col">Price</th>
-            <th class="px-6 py-2 text-sm text-gray-500" scope="col">Rent</th>
-            <th class="px-6 py-2 text-sm text-gray-500" scope="col">EMI</th>
-            <th class="px-6 py-2 text-sm text-gray-500" scope="col">Tax</th>
-            <th class="px-6 py-2 text-sm text-gray-500" scope="col">Expenses</th>
-            <th class="px-6 py-2 text-sm text-gray-500" scope="col">Net Expenses</th>
-            <th class="px-6 py-2 text-sm text-gray-500" scope="col">Net Income</th>
-          </tr>
-        </thead>
-        <tbody>
-        {% if data_objects %}           
-                    {% for object in data_objects %}
-                        <tr>
-                            <td class="px-6 py-4 text-sm text-gray-500 font-bold">{{ object.name }}</td>
-                            <td class="px-6 py-4 text-sm text-green-500">{{ object.price }}</td>
-                            <td class="px-6 py-4 text-sm text-green-500">{{ object.rent }}</td>
-                            <td class="px-6 py-4 text-sm text-red-500">{{ object.emi }}</td>
-                            <td class="px-6 py-4 text-sm text-red-500">{{ object.tax }}</td>
-                            <td class="px-6 py-4 text-sm text-red-500">{{ object.exp }}</td>
-                            <td class="px-6 py-4 text-sm text-red-500">{{ object.monthly_expenses }}</td>
-                            <td class="px-6 py-4 text-sm text-green-500">{{ object.monthly_income }}</td>
-                        </tr>
-                    {% endfor %}      
-                    <tr>
-                      <td class="px-6 py-4 text-sm text-gray-500 font-bold">TOTAL</td>
-                      <td id="tot_prices" class="px-6 py-4 text-sm text-green-500 font-bold">0</td>
-                      <td id="tot_rent" class="px-6 py-4 text-sm text-green-500 font-bold">0</td>
-                      <td id="tot_emi" class="px-6 py-4 text-sm text-red-500 font-bold">0</td>
-                      <td id="tot_tax" class="px-6 py-4 text-sm text-red-500 font-bold">0</td>
-                      <td id="tot_exp" class="px-6 py-4 text-sm text-red-500 font-bold">0</td>
-                      <td id="tot_expense" class="px-6 py-4 text-sm text-red-500 font-bold">0</td>
-                      <td id="tot_income" class="px-6 py-4 text-sm text-green-500 font-bold">0</td>
-                  </tr>        
-        {% endif %} 
-        </tbody>
-      </table>
-      <br/>
-      <script>
-          table = document.getElementById("table")
-          let net_prices, net_rent, net_emi, net_tax, net_exp,net_expense,net_income = 0;
-          let tot_prices=0, tot_rent=0, tot_emi=0, tot_tax=0, tot_exp=0,tot_expense=0,tot_income = 0;
-          for(let i=1; i<table.rows.length-1;i++) {
-            net_prices = table.rows[i].cells[1].innerText;
-            net_prices = parseInt(net_prices)
-            tot_prices += net_prices
-            net_rent = table.rows[i].cells[2].innerText;
-            net_rent = parseInt(net_rent)
-            tot_rent += net_rent
-            net_emi = table.rows[i].cells[3].innerText;
-            net_emi = parseInt(net_emi)
-            tot_emi += net_emi
-            net_tax = table.rows[i].cells[4].innerText;
-            net_tax = parseInt(net_tax)
-            tot_tax += net_tax
-            net_exp = table.rows[i].cells[5].innerText;
-            net_exp = parseInt(net_exp)
-            tot_exp += net_exp
-            net_expense = table.rows[i].cells[6].innerText;
-            net_expense = parseInt(net_expense)
-            tot_expense += net_expense
-            net_income = table.rows[i].cells[7].innerText;
-            net_income = parseInt(net_income)
-            tot_income += net_income
-          }
-          document.getElementById("tot_prices").innerHTML = tot_prices
-          document.getElementById("tot_rent").innerHTML = tot_rent
-          document.getElementById("tot_emi").innerHTML = tot_emi
-          document.getElementById("tot_tax").innerHTML = tot_tax
-          document.getElementById("tot_exp").innerHTML = tot_exp
-          document.getElementById("tot_expense").innerHTML = tot_expense
-          document.getElementById("tot_income").innerHTML = tot_income
-          console.log(tot_prices)
-          console.log(tot_rent)
-          console.log(tot_emi)
-          console.log(tot_tax)
-          console.log(tot_exp)
-          console.log(tot_expense)
-          console.log(tot_income)
-      </script>
+  <div class="flex">
+    <div class="w-1/2">
+      <div class="m-10 font-bold text-indigo-600">Upload CSV File</div>
+      <div class="container mx-auto w-full max-w-xs">
+        <form class="bg-white rounded px-8 pt-6 pb-8 mb-4" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <input class="inline-block font-bold text-sm text-blue-500" type="file" name="file" id="file">
+          <input class="bg-blue-500 text-white font-bold py-2 px-4 rounded" type="submit" name="submit" id="">
+        </form>
+      </div>
+    </div>
+    <div class="w-1/2">
+
+    </div>
+  </div>
+  <div class="m-10 container font-bold text-indigo-600">Property Stats</div>
+
+  <div class="container mx-auto flex justify-center">
+    <div class="flex flex-col">
+      <div class="w-full">
+        <div class="border-b border-gray-200 shadow">
+          <table id="table">
+            <thead>
+              <tr>
+                <th class="px-6 py-2 text-sm text-gray-500" scope="col">Name</th>
+                <th class="px-6 py-2 text-sm text-gray-500" scope="col">Price</th>
+                <th class="px-6 py-2 text-sm text-gray-500" scope="col">Rent</th>
+                <th class="px-6 py-2 text-sm text-gray-500" scope="col">EMI</th>
+                <th class="px-6 py-2 text-sm text-gray-500" scope="col">Tax</th>
+                <th class="px-6 py-2 text-sm text-gray-500" scope="col">Expenses</th>
+                <th class="px-6 py-2 text-sm text-gray-500" scope="col">Net Expenses</th>
+                <th class="px-6 py-2 text-sm text-gray-500" scope="col">Net Income</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% if data_objects %}
+              {% for object in data_objects %}
+              <tr>
+                <td class="px-6 py-4 text-sm text-gray-500 font-bold">{{ object.name }}</td>
+                <td class="px-6 py-4 text-sm text-green-500">{{ object.price }}</td>
+                <td class="px-6 py-4 text-sm text-green-500">{{ object.rent }}</td>
+                <td class="px-6 py-4 text-sm text-red-500">{{ object.emi }}</td>
+                <td class="px-6 py-4 text-sm text-red-500">{{ object.tax }}</td>
+                <td class="px-6 py-4 text-sm text-red-500">{{ object.exp }}</td>
+                <td class="px-6 py-4 text-sm text-red-500">{{ object.monthly_expenses }}</td>
+                <td class="px-6 py-4 text-sm text-green-500">{{ object.monthly_income }}</td>
+              </tr>
+              {% endfor %}
+              <tr>
+                <td class="px-6 py-4 text-sm text-gray-500 font-bold">TOTAL</td>
+                <td id="tot_prices" class="px-6 py-4 text-sm text-green-500 font-bold">0</td>
+                <td id="tot_rent" class="px-6 py-4 text-sm text-green-500 font-bold">0</td>
+                <td id="tot_emi" class="px-6 py-4 text-sm text-red-500 font-bold">0</td>
+                <td id="tot_tax" class="px-6 py-4 text-sm text-red-500 font-bold">0</td>
+                <td id="tot_exp" class="px-6 py-4 text-sm text-red-500 font-bold">0</td>
+                <td id="tot_expense" class="px-6 py-4 text-sm text-red-500 font-bold">0</td>
+                <td id="tot_income" class="px-6 py-4 text-sm text-green-500 font-bold">0</td>
+              </tr>
+              {% endif %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <br />
+  <script>
+    table = document.getElementById("table")
+    let net_prices, net_rent, net_emi, net_tax, net_exp, net_expense, net_income = 0;
+    let tot_prices = 0, tot_rent = 0, tot_emi = 0, tot_tax = 0, tot_exp = 0, tot_expense = 0, tot_income = 0;
+    for (let i = 1; i < table.rows.length - 1; i++) {
+      net_prices = table.rows[i].cells[1].innerText;
+      net_prices = parseInt(net_prices)
+      tot_prices += net_prices
+      net_rent = table.rows[i].cells[2].innerText;
+      net_rent = parseInt(net_rent)
+      tot_rent += net_rent
+      net_emi = table.rows[i].cells[3].innerText;
+      net_emi = parseInt(net_emi)
+      tot_emi += net_emi
+      net_tax = table.rows[i].cells[4].innerText;
+      net_tax = parseInt(net_tax)
+      tot_tax += net_tax
+      net_exp = table.rows[i].cells[5].innerText;
+      net_exp = parseInt(net_exp)
+      tot_exp += net_exp
+      net_expense = table.rows[i].cells[6].innerText;
+      net_expense = parseInt(net_expense)
+      tot_expense += net_expense
+      net_income = table.rows[i].cells[7].innerText;
+      net_income = parseInt(net_income)
+      tot_income += net_income
+    }
+    document.getElementById("tot_prices").innerHTML = tot_prices
+    document.getElementById("tot_rent").innerHTML = tot_rent
+    document.getElementById("tot_emi").innerHTML = tot_emi
+    document.getElementById("tot_tax").innerHTML = tot_tax
+    document.getElementById("tot_exp").innerHTML = tot_exp
+    document.getElementById("tot_expense").innerHTML = tot_expense
+    document.getElementById("tot_income").innerHTML = tot_income
+    console.log(tot_prices)
+    console.log(tot_rent)
+    console.log(tot_emi)
+    console.log(tot_tax)
+    console.log(tot_exp)
+    console.log(tot_expense)
+    console.log(tot_income)
+  </script>
 </body>
+
 </html>
